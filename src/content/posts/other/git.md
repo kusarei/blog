@@ -94,7 +94,7 @@ git commit -m "first commit"
 git branch -M main
 
 # 添加远程仓库（替换成你自己的）
-git remote add origin https://github.com/kawaiirei0/blog.git
+git remote add origin https://github.com/kobayashirei/blog.git
 
 # 推送到 GitHub
 git push -u origin main
