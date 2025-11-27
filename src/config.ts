@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 		},
 		{
 			name: "GitHub",
-			url: "https://github.com/kawaiirei0", // Internal links should not include the base path, as it is automatically added
+			url: "https://github.com/kobayashirei", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 		
@@ -80,7 +80,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/kawaiirei0",
+			url: "https://github.com/kobayashirei",
 		},
 	],
 };

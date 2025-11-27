@@ -31,7 +31,8 @@
 
 ### 如何联系？
 
-* qq: 2152719569
+* QQ: 2152719569
 * [BiliBili](https://space.bilibili.com/403597865)
+* [Github](https://github.com/kobayashirei)
 
 ![可爱小楠凉](./qq_group.png "可爱小楠凉")
