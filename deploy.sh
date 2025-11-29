@@ -34,14 +34,15 @@ echo "📂 工作目录: $WORKSPACE_DIR"
 mkdir -p "$WORKSPACE_DIR"
 
 # 2. 启动 Builder 容器 (Node 环境)
-# 使用 node:20-alpine 作为构建环境，它轻量且包含 corepack
+# 使用 swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/node:20-alpine 作为构建环境
+# 这是一个国内可访问的 Docker 镜像代理
 echo "🐳 [Builder] 启动 Node.js 容器进行构建..."
 echo "   - 任务: Git Clone -> PNPM Install -> PNPM Build"
 
 docker run --rm \
     -v "$WORKSPACE_DIR:/app" \
     -w /app \
-    node:20-alpine \
+    swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/node:20-alpine \
     sh -c "
     set -e # 遇到错误立即退出
 
@@ -49,9 +50,9 @@ docker run --rm \
     apk add --no-cache git > /dev/null
 
     echo '📦 [Container] 启用 PNPM...'
-    corepack enable
-    corepack prepare pnpm@latest --activate
-
+    # corepack prepare 有时会遇到签名验证网络问题，这里直接通过 npm 全局安装 pnpm
+    npm install -g pnpm
+    
     if [ ! -d \"$APP_NAME\" ]; then
         echo '� [Container] 克隆仓库...'
         git clone \"$REPO_URL\" \"$APP_NAME\"
@@ -106,12 +107,12 @@ if [ "$(docker ps -aq -f name="$CONTAINER_NAME")" ]; then
 fi
 
 # 启动新容器
-# 直接使用 nginx:alpine 镜像，无需构建新镜像，挂载 dist 即可
+# 直接使用国内代理镜像 nginx:alpine，无需构建新镜像，挂载 dist 即可
 docker run -d \
   --name "$CONTAINER_NAME" \
   -p "$PORT":"$CONTAINER_INNER_APP_PORT" \
   -v "$DIST_DIR":/usr/share/nginx/html \
-  nginx:alpine
+  swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:alpine
 
 echo "=========================================="
 echo "✨ 部署完成啦！所有操作都在容器内搞定！"
